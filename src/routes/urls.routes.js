@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {  } from "../controllers/urlsController.js";
+import { createShortenUrl, getUrl, getUrlId, deleteUrl } from "../controllers/urlsController.js";
 import { validateSchema } from "../middlewares/validateSchema.middleware.js";
 import {urlsSchema} from "../schemas/urls.schema.js";
 

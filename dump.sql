@@ -26,7 +26,8 @@ SET default_table_access_method = heap;
 
 CREATE TABLE public."shortUrl" (
     id integer NOT NULL,
-    "shortUrlDone" text NOT NULL
+    "shortUrlDone" text NOT NULL,
+    "createdAt" timestamp without time zone DEFAULT now()
 );
 
 
@@ -56,7 +57,8 @@ ALTER SEQUENCE public."shortUrl_id_seq" OWNED BY public."shortUrl".id;
 
 CREATE TABLE public.url (
     id integer NOT NULL,
-    "urlBase" text NOT NULL
+    "urlBase" text NOT NULL,
+    "createdAt" timestamp without time zone DEFAULT now()
 );
 
 
@@ -88,7 +90,8 @@ CREATE TABLE public.urls (
     id integer NOT NULL,
     "urlsBase" text,
     "shortUrls" text,
-    "visitCount" integer NOT NULL
+    "visitCount" integer NOT NULL,
+    "createdAt" timestamp without time zone DEFAULT now()
 );
 
 
@@ -119,7 +122,8 @@ ALTER SEQUENCE public.urls_id_seq OWNED BY public.urls.id;
 CREATE TABLE public.user_urls (
     id integer NOT NULL,
     "userId" integer NOT NULL,
-    "urlsId" integer NOT NULL
+    "urlsId" integer NOT NULL,
+    "createdAt" timestamp without time zone DEFAULT now()
 );
 
 
@@ -152,7 +156,8 @@ CREATE TABLE public.users (
     name text NOT NULL,
     email text NOT NULL,
     password text NOT NULL,
-    token text
+    token text,
+    "createdAt" timestamp without time zone DEFAULT now()
 );
 
 
@@ -239,6 +244,7 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: -
 --
 
+INSERT INTO public.users VALUES (1, 'sapato', 's@s.com', '$2b$10$V08OZ0vbflWEHE13HL3s/eO3l3jy4Mrf6tWjFZsaDw/2RnSmPKif2', NULL, '2023-05-19 12:57:38.869047');
 
 
 --
@@ -273,7 +279,7 @@ SELECT pg_catalog.setval('public.user_urls_id_seq', 1, false);
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 1, false);
+SELECT pg_catalog.setval('public.users_id_seq', 1, true);
 
 
 --

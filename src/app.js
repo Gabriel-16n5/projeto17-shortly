@@ -10,5 +10,5 @@ app.use(router);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
-	console.log(`server running on port 5000 || or who knows ${port}`)
-})
+	console.log(`server running on port 5000 || or -> ${port}`)
+});

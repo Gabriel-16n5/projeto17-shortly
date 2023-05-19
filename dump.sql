@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 14.7
+-- Dumped from database version 14.7 (Ubuntu 14.7-0ubuntu0.22.04.1)
 -- Dumped by pg_dump version 14.7 (Ubuntu 14.7-0ubuntu0.22.04.1)
 
 SET statement_timeout = 0;
@@ -16,71 +16,25 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
-ALTER TABLE IF EXISTS ONLY public.user_urls DROP CONSTRAINT IF EXISTS user_urls_fk1;
-ALTER TABLE IF EXISTS ONLY public.user_urls DROP CONSTRAINT IF EXISTS user_urls_fk0;
-ALTER TABLE IF EXISTS ONLY public.urls DROP CONSTRAINT IF EXISTS urls_fk1;
-ALTER TABLE IF EXISTS ONLY public.urls DROP CONSTRAINT IF EXISTS urls_fk0;
-ALTER TABLE IF EXISTS ONLY public.users DROP CONSTRAINT IF EXISTS users_token_key;
-ALTER TABLE IF EXISTS ONLY public.users DROP CONSTRAINT IF EXISTS users_pkey;
-ALTER TABLE IF EXISTS ONLY public.users DROP CONSTRAINT IF EXISTS users_name_key;
-ALTER TABLE IF EXISTS ONLY public.users DROP CONSTRAINT IF EXISTS users_email_key;
-ALTER TABLE IF EXISTS ONLY public.user_urls DROP CONSTRAINT IF EXISTS "user_urls_urlsId_key";
-ALTER TABLE IF EXISTS ONLY public.user_urls DROP CONSTRAINT IF EXISTS user_urls_pkey;
-ALTER TABLE IF EXISTS ONLY public.urls DROP CONSTRAINT IF EXISTS "urls_shortUrls_key";
-ALTER TABLE IF EXISTS ONLY public.urls DROP CONSTRAINT IF EXISTS urls_pkey;
-ALTER TABLE IF EXISTS ONLY public.url DROP CONSTRAINT IF EXISTS "url_urlBase_key";
-ALTER TABLE IF EXISTS ONLY public.url DROP CONSTRAINT IF EXISTS url_pkey;
-ALTER TABLE IF EXISTS ONLY public.shorturl DROP CONSTRAINT IF EXISTS shorturl_shorturl_key;
-ALTER TABLE IF EXISTS ONLY public.shorturl DROP CONSTRAINT IF EXISTS shorturl_pkey;
-ALTER TABLE IF EXISTS public.users ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE IF EXISTS public.user_urls ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE IF EXISTS public.urls ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE IF EXISTS public.url ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE IF EXISTS public.shorturl ALTER COLUMN id DROP DEFAULT;
-DROP SEQUENCE IF EXISTS public.users_id_seq;
-DROP TABLE IF EXISTS public.users;
-DROP SEQUENCE IF EXISTS public.user_urls_id_seq;
-DROP TABLE IF EXISTS public.user_urls;
-DROP SEQUENCE IF EXISTS public.urls_id_seq;
-DROP TABLE IF EXISTS public.urls;
-DROP SEQUENCE IF EXISTS public.url_id_seq;
-DROP TABLE IF EXISTS public.url;
-DROP SEQUENCE IF EXISTS public.shorturl_id_seq;
-DROP TABLE IF EXISTS public.shorturl;
-DROP SCHEMA IF EXISTS public;
---
--- Name: public; Type: SCHEMA; Schema: -; Owner: -
---
-
-CREATE SCHEMA public;
-
-
---
--- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON SCHEMA public IS 'standard public schema';
-
-
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
 
 --
--- Name: shorturl; Type: TABLE; Schema: public; Owner: -
+-- Name: shortUrl; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.shorturl (
+CREATE TABLE public."shortUrl" (
     id integer NOT NULL,
-    shorturl text NOT NULL
+    "shortUrlDone" text NOT NULL
 );
 
 
 --
--- Name: shorturl_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: shortUrl_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE public.shorturl_id_seq
+CREATE SEQUENCE public."shortUrl_id_seq"
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -90,10 +44,10 @@ CREATE SEQUENCE public.shorturl_id_seq
 
 
 --
--- Name: shorturl_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: shortUrl_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public.shorturl_id_seq OWNED BY public.shorturl.id;
+ALTER SEQUENCE public."shortUrl_id_seq" OWNED BY public."shortUrl".id;
 
 
 --
@@ -223,10 +177,10 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
--- Name: shorturl id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: shortUrl id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.shorturl ALTER COLUMN id SET DEFAULT nextval('public.shorturl_id_seq'::regclass);
+ALTER TABLE ONLY public."shortUrl" ALTER COLUMN id SET DEFAULT nextval('public."shortUrl_id_seq"'::regclass);
 
 
 --
@@ -258,7 +212,7 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 
 --
--- Data for Name: shorturl; Type: TABLE DATA; Schema: public; Owner: -
+-- Data for Name: shortUrl; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
@@ -288,10 +242,10 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 
 --
--- Name: shorturl_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+-- Name: shortUrl_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.shorturl_id_seq', 1, false);
+SELECT pg_catalog.setval('public."shortUrl_id_seq"', 1, false);
 
 
 --
@@ -323,19 +277,19 @@ SELECT pg_catalog.setval('public.users_id_seq', 1, false);
 
 
 --
--- Name: shorturl shorturl_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: shortUrl shortUrl_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.shorturl
-    ADD CONSTRAINT shorturl_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public."shortUrl"
+    ADD CONSTRAINT "shortUrl_pkey" PRIMARY KEY (id);
 
 
 --
--- Name: shorturl shorturl_shorturl_key; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: shortUrl shortUrl_shortUrlDone_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.shorturl
-    ADD CONSTRAINT shorturl_shorturl_key UNIQUE (shorturl);
+ALTER TABLE ONLY public."shortUrl"
+    ADD CONSTRAINT "shortUrl_shortUrlDone_key" UNIQUE ("shortUrlDone");
 
 
 --
@@ -431,7 +385,7 @@ ALTER TABLE ONLY public.urls
 --
 
 ALTER TABLE ONLY public.urls
-    ADD CONSTRAINT urls_fk1 FOREIGN KEY ("shortUrls") REFERENCES public.shorturl(shorturl);
+    ADD CONSTRAINT urls_fk1 FOREIGN KEY ("shortUrls") REFERENCES public."shortUrl"("shortUrlDone");
 
 
 --

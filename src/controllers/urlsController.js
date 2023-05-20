@@ -3,7 +3,6 @@ import { nanoid } from "nanoid";
 
 export async function createShortenUrl(req, res) {
     const {url} = req.body;
-    console.log(url);
     const {authorization} = req.headers;
     if(!authorization) return res.status(401).send("Unauthorized access");
     const shortUrl = nanoid(8);
@@ -71,9 +70,29 @@ export async function getUrl(req, res) {
 }
 
 export async function deleteUrl(req, res) {
+    const {id} = req.params;
+    const {authorization} = req.headers;
+    if(!authorization) return res.status(401).send("Unauthorized access");
     try{
+        const session = await db.query(`
+        SELECT token, id
+            FROM users WHERE token = $1;
+        `, [authorization]);
+        if(!session.rows[0]) return res.sendStatus(401);
 
-        res.send("oi");
+        const urlValidation = await db.query(`
+        SELECT "userId"
+            FROM urls WHERE id = $1;
+        `, [id]);
+        if(!urlValidation.rows[0]) return res.sendStatus(404);
+        if(session.rows[0].id === urlValidation.rows[0].userId){
+            await db.query(`
+            DELETE 
+                FROM urls
+                    WHERE id = $1;
+            `, [id]);
+            res.sendStatus(204);
+        }
     } catch (erro){
         res.send(erro.message)
     }

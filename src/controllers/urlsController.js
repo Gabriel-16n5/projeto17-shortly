@@ -12,7 +12,7 @@ export async function createShortenUrl(req, res) {
         SELECT token, id
             FROM users WHERE token = $1;
         `, [authorization]);
-        if(!session.rows[0]) return res.send(401);
+        if(!session.rows[0]) return res.sendStatus(401);
 
         await db.query(`
         INSERT INTO url("userId", "urlBase") VALUES ($1, $2);
@@ -25,6 +25,11 @@ export async function createShortenUrl(req, res) {
         const body= await db.query(`
         SELECT id, "shortUrlDone" FROM "shortUrl" WHERE "userId" = $1;
         `, [session.rows[0].id]);
+
+        await db.query(`
+        INSERT INTO urls("userId", "urlsBase", "shortUrls") VALUES ($1, $2, $3);
+    `, [session.rows[0].id, url, shortUrl]);
+
         res.status(201).send(body.rows.at(-1));
     } catch (erro){
         res.send(erro.message)
@@ -32,18 +37,34 @@ export async function createShortenUrl(req, res) {
 }
 
 export async function getUrlId(req, res) {
+    const {id} = req.params;
     try{
-
-        res.send("oi");
+        const geturl = await db.query(`
+            SELECT id, "shortUrls", "urlsBase"
+                FROM urls WHERE id = $1;
+        `, [id]);
+    if(geturl.rows[0] === undefined) return res.sendStatus(404);
+        res.status(200).send(geturl.rows[0]);
     } catch (erro){
         res.send(erro.message)
     }
 }
 
 export async function getUrl(req, res) {
+    const {shortUrl} = req.params;
+    console.log(shortUrl);
     try{
-
-        res.send("oi");
+        const geturl = await db.query(`
+            SELECT id, "shortUrls", "urlsBase", "visitCount"
+                FROM urls WHERE "shortUrls" = $1;
+        `, [shortUrl]);
+    if(geturl.rows[0] === undefined) return res.sendStatus(404);
+    await db.query(`
+      UPDATE urls
+        SET "visitCount" = $1
+            Where "shortUrls" = $2;
+    `, [geturl.rows[0].visitCount+1, shortUrl]);
+     res.redirect(geturl.rows[0].urlsBase);
     } catch (erro){
         res.send(erro.message)
     }

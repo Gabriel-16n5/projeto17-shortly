@@ -26,7 +26,8 @@ SET default_table_access_method = heap;
 
 CREATE TABLE public."shortUrl" (
     id integer NOT NULL,
-    "shortUrlDone" text NOT NULL,
+    "userId" integer NOT NULL,
+    "shortUrlDone" text,
     "createdAt" timestamp without time zone DEFAULT now()
 );
 
@@ -57,7 +58,8 @@ ALTER SEQUENCE public."shortUrl_id_seq" OWNED BY public."shortUrl".id;
 
 CREATE TABLE public.url (
     id integer NOT NULL,
-    "urlBase" text NOT NULL,
+    "userId" integer NOT NULL,
+    "urlBase" text,
     "createdAt" timestamp without time zone DEFAULT now()
 );
 
@@ -88,9 +90,10 @@ ALTER SEQUENCE public.url_id_seq OWNED BY public.url.id;
 
 CREATE TABLE public.urls (
     id integer NOT NULL,
+    "userId" integer NOT NULL,
     "urlsBase" text,
     "shortUrls" text,
-    "visitCount" integer NOT NULL,
+    "visitCount" integer DEFAULT 0,
     "createdAt" timestamp without time zone DEFAULT now()
 );
 
@@ -122,7 +125,7 @@ ALTER SEQUENCE public.urls_id_seq OWNED BY public.urls.id;
 CREATE TABLE public.user_urls (
     id integer NOT NULL,
     "userId" integer NOT NULL,
-    "urlsId" integer NOT NULL,
+    "urlsId" integer,
     "createdAt" timestamp without time zone DEFAULT now()
 );
 
@@ -220,59 +223,63 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 -- Data for Name: shortUrl; Type: TABLE DATA; Schema: public; Owner: -
 --
 
+INSERT INTO public."shortUrl" VALUES (1, 1, 'kLuwzHkL', '2023-05-20 13:20:11.032742');
 
 
 --
 -- Data for Name: url; Type: TABLE DATA; Schema: public; Owner: -
 --
 
+INSERT INTO public.url VALUES (1, 1, 'https://...', '2023-05-20 13:20:11.029196');
 
 
 --
 -- Data for Name: urls; Type: TABLE DATA; Schema: public; Owner: -
 --
 
+INSERT INTO public.urls VALUES (1, 1, NULL, NULL, 0, '2023-05-20 13:19:25.225934');
 
 
 --
 -- Data for Name: user_urls; Type: TABLE DATA; Schema: public; Owner: -
 --
 
+INSERT INTO public.user_urls VALUES (1, 1, NULL, '2023-05-20 13:19:25.223932');
 
 
 --
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.users VALUES (1, 'sapato', 's@s.com', '$2b$10$V08OZ0vbflWEHE13HL3s/eO3l3jy4Mrf6tWjFZsaDw/2RnSmPKif2', NULL, '2023-05-19 12:57:38.869047');
+INSERT INTO public.users VALUES (1, 'João', 'joao@driven.com.br', '$2b$10$Vt/VMPQM/JrSqDg2ZeaWKe8ci/gEpKiCaZRwi9FiEdKde7EcYtCjq', 'e77d92f5-59a2-4622-8bc9-a16aefd486bd', '2023-05-20 13:19:25.220083');
 
 
 --
 -- Name: shortUrl_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."shortUrl_id_seq"', 1, false);
+SELECT pg_catalog.setval('public."shortUrl_id_seq"', 1, true);
 
 
 --
 -- Name: url_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.url_id_seq', 1, false);
+SELECT pg_catalog.setval('public.url_id_seq', 1, true);
 
 
 --
 -- Name: urls_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.urls_id_seq', 1, false);
+SELECT pg_catalog.setval('public.urls_id_seq', 1, true);
 
 
 --
 -- Name: user_urls_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.user_urls_id_seq', 1, false);
+SELECT pg_catalog.setval('public.user_urls_id_seq', 1, true);
 
 
 --
@@ -376,38 +383,6 @@ ALTER TABLE ONLY public.users
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_token_key UNIQUE (token);
-
-
---
--- Name: urls urls_fk0; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.urls
-    ADD CONSTRAINT urls_fk0 FOREIGN KEY ("urlsBase") REFERENCES public.url("urlBase");
-
-
---
--- Name: urls urls_fk1; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.urls
-    ADD CONSTRAINT urls_fk1 FOREIGN KEY ("shortUrls") REFERENCES public."shortUrl"("shortUrlDone");
-
-
---
--- Name: user_urls user_urls_fk0; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.user_urls
-    ADD CONSTRAINT user_urls_fk0 FOREIGN KEY ("userId") REFERENCES public.users(id);
-
-
---
--- Name: user_urls user_urls_fk1; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.user_urls
-    ADD CONSTRAINT user_urls_fk1 FOREIGN KEY ("urlsId") REFERENCES public.urls(id);
 
 
 --

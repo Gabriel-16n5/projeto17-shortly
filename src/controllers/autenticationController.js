@@ -21,7 +21,21 @@ export async function createAccount(req, res) {
         const dbCheck = await db.query(`
             INSERT INTO users (name, email, password)
                 VALUES ($1, $2, $3);
-        `, [name, email, encryptedPass])
+        `, [name, email, encryptedPass]);
+        const accountId = await db.query(`
+        SELECT id
+            FROM users
+                Where email = $1 AND name = $2;
+        `, [email, name]);
+        console.log(accountId.rows[0]);
+        await db.query(`
+            INSERT INTO user_urls ("userId") VALUES ($1);
+        `, [accountId.rows[0].id]);
+
+        await db.query(`
+            INSERT INTO urls ("userId") VALUES ($1);
+        `, [accountId.rows[0].id]);
+
         res.sendStatus(201);
     } catch (erro){
         res.send(erro.message)

@@ -43,13 +43,12 @@ export async function loginAccount(req, res) {
             if(!passwordValidation) return res.sendStatus(401);
         }
         const token = uuid();
-        console.log({token: token});
         const login = await db.query(`
         UPDATE users
             SET token = $1
                 Where email = $2;
         `, [token, email]);
-        res.status(200).send({token: token});
+        res.status(200).send({token});
     } catch (erro){
         res.send(erro.message)
     }

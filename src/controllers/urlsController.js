@@ -4,14 +4,14 @@ import { nanoid } from "nanoid";
 export async function createShortenUrl(req, res) {
     const {url} = req.body;
     const {authorization} = req.headers;
-    if(!authorization) return res.status(401).send("Unauthorized access");
+    if(!authorization) return res.sendStatus(401);
     const shortUrl = nanoid(8);
     try{
         const session = await db.query(`
         SELECT token, id
             FROM users WHERE token = $1;
         `, [authorization]);
-        if(!session.rows[0]) return res.sendStatus(201);
+        if(!session.rows[0]) return res.sendStatus(401);
 
         await db.query(`
         INSERT INTO url("userId", "urlBase") VALUES ($1, $2);
@@ -21,15 +21,18 @@ export async function createShortenUrl(req, res) {
         INSERT INTO "shortUrl"("userId", "shortUrlDone") VALUES ($1, $2);
     `, [session.rows[0].id, shortUrl]);
 
-        const body= await db.query(`
+        const body = await db.query(`
         SELECT id, "shortUrlDone" FROM "shortUrl" WHERE "userId" = $1;
         `, [session.rows[0].id]);
 
         await db.query(`
         INSERT INTO urls("userId", "urlsBase", "shortUrls") VALUES ($1, $2, $3);
     `, [session.rows[0].id, url, shortUrl]);
-
-        res.status(201).send(body.rows.at(-1));
+        const data = {
+            id: body.rows.at(-1).id,
+            shortUrl
+        }
+        res.status(201).send(data);
     } catch (erro){
         res.send(erro.message)
     }

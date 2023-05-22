@@ -11,7 +11,7 @@ export async function createShortenUrl(req, res) {
         SELECT token, id
             FROM users WHERE token = $1;
         `, [authorization]);
-        if(!session.rows[0]) return res.sendStatus(401);
+        if(!session.rows[0]) return res.sendStatus(201);
 
         await db.query(`
         INSERT INTO url("userId", "urlBase") VALUES ($1, $2);

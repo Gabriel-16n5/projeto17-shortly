@@ -24,7 +24,6 @@ export async function getusers(req, res) {
             name: session.rows[0].name,
             visitCount,
             shortenedUrls: shortenedUrls.rows
-
         }
         res.status(200).send(data);
     } catch (erro){

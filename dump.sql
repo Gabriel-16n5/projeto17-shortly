@@ -223,70 +223,77 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 -- Data for Name: shortUrl; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public."shortUrl" VALUES (1, 1, 'kLuwzHkL', '2023-05-20 13:20:11.032742');
+INSERT INTO public."shortUrl" VALUES (1, 1, 'Xtzncs_Y', '2023-05-20 14:40:52.766661');
+INSERT INTO public."shortUrl" VALUES (2, 2, 'rgYolj3E', '2023-05-22 10:47:00.095938');
+INSERT INTO public."shortUrl" VALUES (3, 2, '0f9PUfI8', '2023-05-22 10:48:24.975739');
+INSERT INTO public."shortUrl" VALUES (4, 2, '6ub6Ih8c', '2023-05-22 10:48:32.963191');
 
 
 --
 -- Data for Name: url; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.url VALUES (1, 1, 'https://...', '2023-05-20 13:20:11.029196');
+INSERT INTO public.url VALUES (1, 1, 'https://youtube.com.br', '2023-05-20 14:40:52.761291');
+INSERT INTO public.url VALUES (2, 2, 'https://www.google.com.br', '2023-05-22 10:47:00.090999');
+INSERT INTO public.url VALUES (3, 2, 'https://www.youtube.com.br', '2023-05-22 10:48:24.972536');
+INSERT INTO public.url VALUES (4, 2, 'https://www.facebook.com.br', '2023-05-22 10:48:32.960621');
 
 
 --
 -- Data for Name: urls; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.urls VALUES (1, 1, NULL, NULL, 0, '2023-05-20 13:19:25.225934');
+INSERT INTO public.urls VALUES (3, 2, 'https://www.youtube.com.br', '0f9PUfI8', 1, '2023-05-22 10:48:24.977031');
+INSERT INTO public.urls VALUES (4, 2, 'https://www.facebook.com.br', '6ub6Ih8c', 4, '2023-05-22 10:48:32.964213');
 
 
 --
 -- Data for Name: user_urls; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.user_urls VALUES (1, 1, NULL, '2023-05-20 13:19:25.223932');
 
 
 --
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.users VALUES (1, 'João', 'joao@driven.com.br', '$2b$10$Vt/VMPQM/JrSqDg2ZeaWKe8ci/gEpKiCaZRwi9FiEdKde7EcYtCjq', 'e77d92f5-59a2-4622-8bc9-a16aefd486bd', '2023-05-20 13:19:25.220083');
+INSERT INTO public.users VALUES (1, 'João', 'joao@driven.com.br', '$2b$10$jEoKVhO.Gms8mBG1vUcQdOA9apE68o0/0xRVQmsd/D6fIsJc.euYK', 'f7656019-324b-465d-8539-3f784879846a', '2023-05-20 14:40:15.031544');
+INSERT INTO public.users VALUES (2, 'Gabriel', 'g@g.com.br', '$2b$10$7F9q6G.T1kDctcDmfjHrUOaJA8G9ax1rtzmNhCisLX2uf7pRE/.t2', 'f90e748f-e195-4f62-8e9e-8e54b1d27aac', '2023-05-22 10:45:16.024504');
 
 
 --
 -- Name: shortUrl_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."shortUrl_id_seq"', 1, true);
+SELECT pg_catalog.setval('public."shortUrl_id_seq"', 4, true);
 
 
 --
 -- Name: url_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.url_id_seq', 1, true);
+SELECT pg_catalog.setval('public.url_id_seq', 4, true);
 
 
 --
 -- Name: urls_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.urls_id_seq', 1, true);
+SELECT pg_catalog.setval('public.urls_id_seq', 4, true);
 
 
 --
 -- Name: user_urls_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.user_urls_id_seq', 1, true);
+SELECT pg_catalog.setval('public.user_urls_id_seq', 1, false);
 
 
 --
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 1, true);
+SELECT pg_catalog.setval('public.users_id_seq', 2, true);
 
 
 --

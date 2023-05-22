@@ -19,7 +19,7 @@ export async function getusers(req, res) {
             visitCount+= shortenedUrls.rows[i].visitCount;
         }
         const data = {
-            id: id,
+            id,
             name: session.rows[0].name,
             visitCount,
             shortenedUrls: shortenedUrls.rows

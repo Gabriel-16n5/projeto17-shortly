@@ -2,8 +2,11 @@ import { db } from "../database/database.connection.js";
 
 export async function getRanking(req, res) {
     try{
-
-        res.send("oi");
+        const shortenedUrls = await db.query(`
+        SELECT id, "shortUrls", "urlsBase", "visitCount"
+            FROM urls;
+        `,);
+        res.send(shortenedUrls.rows);
     } catch (erro){
         res.send(erro.message)
     }

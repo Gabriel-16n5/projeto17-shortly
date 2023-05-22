@@ -7,9 +7,10 @@ export async function getRanking(req, res) {
         FROM urls
         JOIN users ON users.id = urls."userId"
         JOIN url ON url."userId" = urls."userId"
-
         GROUP BY url."userId", users.name, urls."visitCount"
-        ORDER BY "linksCount";
+        ORDER BY "linksCount"
+        LIMIT 10
+        ;
         `,);
         res.send(shortenedUrls.rows);
     } catch (erro){

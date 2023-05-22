@@ -47,7 +47,12 @@ export async function getUrlId(req, res) {
                 FROM urls WHERE id = $1;
         `, [id]);
     if(geturl.rows[0] === undefined) return res.sendStatus(404);
-        res.status(200).send(geturl.rows[0]);
+    const data = {
+        id: geturl.rows[0].id,
+        shortUrl: geturl.rows[0].shortUrls,
+        url: geturl.rows[0].urlsBase
+    }
+        res.status(200).send(data);
     } catch (erro){
         res.send(erro.message)
     }

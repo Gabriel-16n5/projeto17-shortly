@@ -3,7 +3,7 @@ import { db } from "../database/database.connection.js";
 export async function getRanking(req, res) {
     try{
         const shortenedUrls = await db.query(`
-        SELECT url."userId", users.name, COUNT(urls."shortUrls") AS "linksCount", urls."visitCount"
+        SELECT url."userId" AS id, users.name, COUNT(urls."shortUrls") AS "linksCount", urls."visitCount"
         FROM urls
         JOIN users ON users.id = urls."userId"
         JOIN url ON url."userId" = urls."userId"

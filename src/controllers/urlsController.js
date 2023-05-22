@@ -81,12 +81,13 @@ export async function getUrl(req, res) {
 export async function deleteUrl(req, res) {
     const {id} = req.params;
     const {authorization} = req.headers;
-    if(!authorization) return res.status(401).send("Unauthorized access");
+    const token = authorization?.replace('Bearer ', '');
+    if(!token) return res.status(401).send("Unauthorized access");
     try{
         const session = await db.query(`
         SELECT token, id
             FROM users WHERE token = $1;
-        `, [authorization]);
+        `, [token]);
         if(!session.rows[0]) return res.sendStatus(401);
 
         const urlValidation = await db.query(`

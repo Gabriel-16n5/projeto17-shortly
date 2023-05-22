@@ -92,8 +92,8 @@ export async function deleteUrl(req, res) {
 
         const urlUserValidation = await db.query(`
         SELECT "userId"
-            FROM urls WHERE id = $1 AND "userId" = $2;
-        `, [id, session.rows[0].id]);
+            FROM urls WHERE id = $1;
+        `, [id]);
         if(!urlUserValidation.rows[0]) return res.sendStatus(404);
 
         const urlValidation = await db.query(`

@@ -90,12 +90,19 @@ export async function deleteUrl(req, res) {
         `, [token]);
         if(!session.rows[0]) return res.sendStatus(401);
 
+        const urlUserValidation = await db.query(`
+        SELECT "userId"
+            FROM urls WHERE id = $1 AND "userId" = $2;
+        `, [id, session.rows[0].id]);
+        if(!urlUserValidation.rows[0]) return res.sendStatus(404);
+
         const urlValidation = await db.query(`
         SELECT "userId"
             FROM urls WHERE id = $1 AND "userId" = $2;
         `, [id, session.rows[0].id]);
         if(!urlValidation.rows[0]) return res.sendStatus(401);
-        if(session.rows[0].id === urlValidation.rows[0].userId){
+
+        if(session.rows[0].id === urlUserValidation.rows[0].userId){
             await db.query(`
             DELETE 
                 FROM urls

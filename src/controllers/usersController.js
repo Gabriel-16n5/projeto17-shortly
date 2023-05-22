@@ -10,9 +10,8 @@ export async function getusers(req, res) {
         SELECT * 
             FROM users WHERE token = $1;
         `, [token]);
-        const id = session.rows[0].id
         if(!session.rows[0]) return res.sendStatus(401);
-
+        const id = session.rows[0].id
         const shortenedUrls = await db.query(`
         SELECT id, "shortUrls" AS "shortUrl", "urlsBase" AS "url", "visitCount"
             FROM urls WHERE "userId" = $1;

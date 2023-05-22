@@ -2,15 +2,16 @@ import { db } from "../database/database.connection.js";
 import { nanoid } from "nanoid";
 
 export async function createShortenUrl(req, res) {
-    const {url} = req.body;
-    const {authorization} = req.headers;
-    if(!authorization) return res.sendStatus(401);
+    const { url } = req.body;
+    const { authorization } = req.headers;
+    const token = authorization?.replace('Bearer ', '');
+    if(!token) return res.sendStatus(401);
     const shortUrl = nanoid(8);
     try{
         const session = await db.query(`
         SELECT token, id
             FROM users WHERE token = $1;
-        `, [authorization]);
+        `, [token]);
         if(!session.rows[0]) return res.sendStatus(401);
 
         await db.query(`

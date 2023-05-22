@@ -2,17 +2,19 @@ import { db } from "../database/database.connection.js";
 
 export async function getusers(req, res) {
     const {authorization} = req.headers;
+    const token = authorization?.replace('Bearer ', '');
     let visitCount = 0;
-    if(!authorization) return res.status(401).send("Unauthorized access");
+    if(!token) return res.status(401).send("Unauthorized access");
     try{
         const session = await db.query(`
         SELECT * 
             FROM users WHERE token = $1;
-        `, [authorization]);
+        `, [token]);
         const id = session.rows[0].id
         if(!session.rows[0]) return res.sendStatus(401);
+
         const shortenedUrls = await db.query(`
-        SELECT id, "shortUrls", "urlsBase", "visitCount"
+        SELECT id, "shortUrls" AS "shortUrl", "urlsBase" AS "url", "visitCount"
             FROM urls WHERE "userId" = $1;
         `, [id]);
         for (let i = 0; i<shortenedUrls.rowCount; i++){

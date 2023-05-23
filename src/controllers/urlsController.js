@@ -29,8 +29,9 @@ export async function createShortenUrl(req, res) {
         await db.query(`
         INSERT INTO urls("userId", "urlsBase", "shortUrls") VALUES ($1, $2, $3);
     `, [session.rows[0].id, url, shortUrl]);
+        const idOk = body.rows.at(-1).id;
         const data = {
-            id: body.rows.at(-1).id,
+            id: idOk,
             shortUrl
         }
         res.status(201).send(data);
